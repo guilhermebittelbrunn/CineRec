@@ -1,0 +1,78 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 300 600;
+    /* src: local('Montserrat Light'), local('Montserrat-Bold'), url('/caminho/para/sua/fonte/montserrat.woff2') format('woff2'); */
+}
+
+body{
+    font-family: 'Montserrat', sans-serif;
+    height: 100%;
+}
+
+#movie-section::-webkit-scrollbar {
+    /* width of the entire scrollbar */
+    width: 8px;
+}
+
+#movie-section::-webkit-scrollbar-track {
+    /* color of the tracking area */
+    background: #171717;
+}
+
+#movie-section::-webkit-scrollbar-thumb {
+    /* color of the scroll thumb */
+    background-color: #09B54E;
+    /* roundness of the scroll thumb */
+    border-radius: 20px;
+    /* creates padding around scroll thumb */
+    border: 1px solid #09B54E;
+}
+
+#modal-section::-webkit-scrollbar {
+    /* width of the entire scrollbar */
+    width: 4px;
+}
+
+#modal-section::-webkit-scrollbar-track {
+    /* color of the tracking area */
+    background: #171717;
+}
+
+#modal-section::-webkit-scrollbar-thumb {
+    /* color of the scroll thumb */
+    background-color: #09B54E;
+    /* roundness of the scroll thumb */
+    border-radius: 20px;
+    /* creates padding around scroll thumb */
+    border: 1px solid #09B54E;
+}
+
+#modal-section::-webkit-scrollbar {
+    /* width of the entire scrollbar */
+    width: 4px;
+}
+
+#modal-section::-webkit-scrollbar-track {
+    /* color of the tracking area */
+    background: #171717;
+}
+
+#modal-section::-webkit-scrollbar-thumb {
+    /* color of the scroll thumb */
+    background-color: #09B54E;
+    /* roundness of the scroll thumb */
+    border-radius: 20px;
+    /* creates padding around scroll thumb */
+    border: 1px solid #09B54E;
+}
+
+    
+    
+    
+    

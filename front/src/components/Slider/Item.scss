@@ -1,0 +1,15 @@
+.item {
+  // flex: 0 0 25%;
+  transition: transform 300ms ease 100ms;
+  margin: 0 2px;
+  position: relative;
+  :hover{
+    cursor: pointer;
+  }
+
+  img {
+    height: 100%;
+    width: 100%;
+    vertical-align: top;
+  }
+}
