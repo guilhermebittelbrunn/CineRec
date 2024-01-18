@@ -3,6 +3,7 @@ import {
   IsNotEmpty,
   IsStrongPassword,
   MinLength,
+  MaxLength,
 } from 'class-validator';
 
 export class CreateUser {
@@ -13,6 +14,7 @@ export class CreateUser {
   @IsEmail()
   email: string;
 
+  @MaxLength(30)
   @IsStrongPassword(
     {
       minLength: 8,

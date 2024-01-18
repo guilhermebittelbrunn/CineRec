@@ -1,5 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { MovieClassification } from '../enums/movie-classification.enum';
+import { Genre } from 'src/api/genres/entities/genre.entity';
+import { List } from 'src/api/lists/entities/list.entity';
+import { Plataform } from 'src/api/plataforms/entities/plataform.entity';
 
 @Entity('movies')
 export class Movie {
@@ -9,7 +18,7 @@ export class Movie {
   @Column()
   title: string;
 
-  @Column()
+  @Column({ type: 'text' })
   sinopse: string;
 
   @Column()
@@ -19,7 +28,7 @@ export class Movie {
   original_title: string;
 
   @Column({ default: 0 })
-  score_votes: number;
+  vote: number;
 
   @Column({ default: 0 })
   count_votes: number;
@@ -41,4 +50,49 @@ export class Movie {
 
   @Column()
   idApi: string;
+
+  @Column({ nullable: true, type: 'json' })
+  json: string;
+
+  @ManyToMany(() => Genre, (genre) => genre.movie)
+  @JoinTable({
+    name: 'movieGenre',
+    joinColumn: {
+      name: 'idMovie',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'idGenre',
+      referencedColumnName: 'id',
+    },
+  })
+  genre: Genre;
+
+  @ManyToMany(() => List, (list) => list.movie)
+  @JoinTable({
+    name: 'movieList',
+    joinColumn: {
+      name: 'idMovie',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'idList',
+      referencedColumnName: 'id',
+    },
+  })
+  list: List;
+
+  @ManyToMany(() => Plataform, (plataform) => plataform.movie)
+  @JoinTable({
+    name: 'plataformMovie',
+    joinColumn: {
+      name: 'idMovie',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'idPlataform',
+      referencedColumnName: 'id',
+    },
+  })
+  plataform: Plataform;
 }

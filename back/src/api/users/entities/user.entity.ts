@@ -1,5 +1,14 @@
-import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinTable,
+  ManyToMany,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
+import { List } from 'src/api/lists/entities/list.entity';
+import { Plataform } from 'src/api/plataforms/entities/plataform.entity';
 
 @Entity('users')
 export class User {
@@ -17,4 +26,21 @@ export class User {
 
   @Column({ default: UserRole.USER })
   role: UserRole;
+
+  @OneToMany(() => List, (list) => list.user)
+  list: List;
+
+  @ManyToMany(() => Plataform, (plataform) => plataform.user)
+  @JoinTable({
+    name: 'userStreaming',
+    joinColumn: {
+      name: 'idUser',
+      referencedColumnName: 'id',
+    },
+    inverseJoinColumn: {
+      name: 'idPlataform',
+      referencedColumnName: 'id',
+    },
+  })
+  plataform: Plataform;
 }
