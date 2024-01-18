@@ -10,6 +10,8 @@ import { User } from './api/users/entities/user.entity';
 import { List } from './api/lists/entities/list.entity';
 import { Genre } from './api/genres/entities/genre.entity';
 import { Plataform } from './api/plataforms/entities/plataform.entity';
+import { AuthModule } from './api/auth/auth.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -28,6 +30,7 @@ import { Plataform } from './api/plataforms/entities/plataform.entity';
     GenresModule,
     UsersModule,
     ListsModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
