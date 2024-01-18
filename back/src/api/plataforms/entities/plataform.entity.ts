@@ -11,8 +11,8 @@ export class Plataform {
   name: string;
 
   @ManyToMany(() => Movie, (movie) => movie.genre)
-  movie: Movie;
+  movie?: Movie[];
 
   @ManyToMany(() => User, (user) => user.plataform)
-  user: User;
+  user?: User[];
 }

@@ -22,5 +22,5 @@ export class List {
   user: User;
 
   @ManyToMany(() => Movie, (movie) => movie.list)
-  movie: Movie;
+  movie?: Movie[];
 }

@@ -28,7 +28,7 @@ export class User {
   role: UserRole;
 
   @OneToMany(() => List, (list) => list.user)
-  list: List;
+  list?: List[];
 
   @ManyToMany(() => Plataform, (plataform) => plataform.user)
   @JoinTable({
@@ -42,5 +42,5 @@ export class User {
       referencedColumnName: 'id',
     },
   })
-  plataform: Plataform;
+  plataform?: Plataform[];
 }

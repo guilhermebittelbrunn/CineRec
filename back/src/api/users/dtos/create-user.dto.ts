@@ -25,4 +25,10 @@ export class CreateUser {
     { message: 'Password is too weak, try other password' },
   )
   password: string;
+
+  @IsNotEmpty()
+  movies: string[];
+
+  @IsNotEmpty()
+  plataforms: string[];
 }

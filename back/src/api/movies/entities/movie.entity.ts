@@ -66,7 +66,7 @@ export class Movie {
       referencedColumnName: 'id',
     },
   })
-  genre: Genre;
+  genre?: Genre[];
 
   @ManyToMany(() => List, (list) => list.movie)
   @JoinTable({
@@ -80,7 +80,7 @@ export class Movie {
       referencedColumnName: 'id',
     },
   })
-  list: List;
+  list?: List[];
 
   @ManyToMany(() => Plataform, (plataform) => plataform.movie)
   @JoinTable({
@@ -94,5 +94,5 @@ export class Movie {
       referencedColumnName: 'id',
     },
   })
-  plataform: Plataform;
+  plataform?: Plataform[];
 }
