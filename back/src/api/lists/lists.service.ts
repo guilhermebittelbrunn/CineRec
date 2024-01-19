@@ -8,6 +8,9 @@ import { List } from './entities/list.entity';
 import { Repository } from 'typeorm';
 import { CreateList } from './dtos/create-list.dto';
 import { GetListFilters } from './dtos/get-list-filters.dto';
+import { User } from '../users/entities/user.entity';
+import { DefaultUserLists } from 'src/common/enums/default-user-lists.enum';
+import { Movie } from '../movies/entities/movie.entity';
 
 @Injectable()
 export class ListsService {
@@ -52,6 +55,20 @@ export class ListsService {
     }
 
     return await this.listRepository.save(createListDto);
+  }
+
+  async createDefaultLists(user: User): Promise<List[]> {
+    return await this.listRepository.save([
+      { name: DefaultUserLists['Favoritos'], user },
+      { name: DefaultUserLists['Assistidos'], user },
+      { name: DefaultUserLists['Assistir mais tarde'], user },
+    ]);
+  }
+
+  async saveMovies(idList: string, movies: string[]) {
+    const list: List = await this.findOne({ id: idList });
+    list.movie = movies;
+    this.listRepository.save(list);
   }
 
   async delete(id: string): Promise<string> {

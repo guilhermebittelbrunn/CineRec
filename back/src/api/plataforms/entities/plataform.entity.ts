@@ -10,6 +10,12 @@ export class Plataform {
   @Column()
   name: string;
 
+  @Column()
+  icon_path: string;
+
+  @Column({ type: 'json', nullable: true })
+  json: string;
+
   @ManyToMany(() => Movie, (movie) => movie.genre)
   movie?: Movie[];
 

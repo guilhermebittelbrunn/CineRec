@@ -5,7 +5,7 @@ import { PlataformsOptions } from 'src/api/plataforms/enums/plataforms-options.e
 export class GetMoviesByQuery {
   @IsPositive()
   @IsOptional()
-  limit?: number = 100;
+  limit?: number = 50;
 
   @IsOptional()
   title?: string = '';
@@ -17,5 +17,8 @@ export class GetMoviesByQuery {
   streamings?: PlataformsOptions[];
 
   @IsOptional()
-  listIdApi?: number[];
+  listIdApi?: string[];
+
+  @IsOptional()
+  moviesId?: string[];
 }

@@ -7,7 +7,6 @@ import {
 } from 'class-validator';
 
 export class CreateUser {
-  @IsNotEmpty()
   @MinLength(4)
   name: string;
 

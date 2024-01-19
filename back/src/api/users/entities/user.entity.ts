@@ -1,10 +1,13 @@
 import {
   Column,
+  CreateDateColumn,
+  DeleteDateColumn,
   Entity,
   JoinTable,
   ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
 import { List } from 'src/api/lists/entities/list.entity';
@@ -21,18 +24,27 @@ export class User {
   @Column({ unique: true })
   email: string;
 
-  @Column({ length: 30 })
+  @Column()
   password: string;
 
   @Column({ default: UserRole.USER })
   role: UserRole;
+
+  @CreateDateColumn()
+  createdAt: Date;
+
+  @UpdateDateColumn()
+  updatedAt: Date;
+
+  @DeleteDateColumn()
+  deletedAt: Date;
 
   @OneToMany(() => List, (list) => list.user)
   list?: List[];
 
   @ManyToMany(() => Plataform, (plataform) => plataform.user)
   @JoinTable({
-    name: 'userStreaming',
+    name: 'userPlataform',
     joinColumn: {
       name: 'idUser',
       referencedColumnName: 'id',

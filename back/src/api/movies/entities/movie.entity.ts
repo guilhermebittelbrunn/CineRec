@@ -28,7 +28,7 @@ export class Movie {
   original_title: string;
 
   @Column({ default: 0 })
-  vote: number;
+  score_vote: number;
 
   @Column({ default: 0 })
   count_votes: number;
@@ -48,7 +48,7 @@ export class Movie {
   @Column({ default: MovieClassification.geral })
   adult: MovieClassification;
 
-  @Column()
+  @Column({ nullable: true })
   idApi: string;
 
   @Column({ nullable: true, type: 'json' })

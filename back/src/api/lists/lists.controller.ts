@@ -11,4 +11,7 @@ export class ListsController {
   create(@Body() createListDTO: CreateList): Promise<List> {
     return this.listService.create(createListDTO);
   }
+
+  @Post('saveMovies')
+  saveMovies(@Body())
 }

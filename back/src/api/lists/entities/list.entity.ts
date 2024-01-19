@@ -1,5 +1,6 @@
 import { Movie } from 'src/api/movies/entities/movie.entity';
 import { User } from 'src/api/users/entities/user.entity';
+import { DefaultUserLists } from 'src/common/enums/default-user-lists.enum';
 import {
   Column,
   Entity,
@@ -15,7 +16,7 @@ export class List {
   id: string;
 
   @Column({ nullable: true, length: 30 })
-  name: string;
+  name: DefaultUserLists | string;
 
   @ManyToOne(() => User, (user) => user.list)
   @JoinColumn({ name: 'idUser' })
