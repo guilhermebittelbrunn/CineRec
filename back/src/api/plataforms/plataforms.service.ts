@@ -11,17 +11,9 @@ export class PlataformsService {
     private plataformRepository: Repository<Plataform>,
   ) {}
 
-  async findAll(idPlataforms: string[]): Promise<Plataform[]> {
-    console.log('idPlataforms', idPlataforms);
+  async findAll(idPlataforms: string): Promise<Plataform[]> {
     const query = this.plataformRepository.createQueryBuilder('plataform');
-    query.andWhere('plataform.id IN (:...idPlataforms)', {
-      idPlataforms,
-    });
+    query.andWhereInIds(JSON.parse(idPlataforms));
     return await query.getMany();
   }
-
-  // async create(plataforms: Plataform[], user: User): Promise<Plataforms[]> {
-  //   const x = this.plataformRepository.create({})
-  //   return await this.plataformRepository.save()
-  // }
 }

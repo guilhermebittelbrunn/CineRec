@@ -16,9 +16,9 @@ export class Plataform {
   @Column({ type: 'json', nullable: true })
   json: string;
 
-  @ManyToMany(() => Movie, (movie) => movie.genre)
-  movie?: Movie[];
+  @ManyToMany(() => Movie, (movies) => movies.genres)
+  movies?: Movie[];
 
-  @ManyToMany(() => User, (user) => user.plataform)
-  user?: User[];
+  @ManyToMany(() => User, (users) => users.plataforms)
+  users?: User[];
 }

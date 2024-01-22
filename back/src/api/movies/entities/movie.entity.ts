@@ -54,7 +54,7 @@ export class Movie {
   @Column({ nullable: true, type: 'json' })
   json: string;
 
-  @ManyToMany(() => Genre, (genre) => genre.movie)
+  @ManyToMany(() => Genre, (genres) => genres.movies)
   @JoinTable({
     name: 'movieGenre',
     joinColumn: {
@@ -66,9 +66,9 @@ export class Movie {
       referencedColumnName: 'id',
     },
   })
-  genre?: Genre[];
+  genres?: Genre[];
 
-  @ManyToMany(() => List, (list) => list.movie)
+  @ManyToMany(() => List, (lists) => lists.movies)
   @JoinTable({
     name: 'movieList',
     joinColumn: {
@@ -80,9 +80,9 @@ export class Movie {
       referencedColumnName: 'id',
     },
   })
-  list?: List[];
+  lists?: List[];
 
-  @ManyToMany(() => Plataform, (plataform) => plataform.movie)
+  @ManyToMany(() => Plataform, (plataforms) => plataforms.movies)
   @JoinTable({
     name: 'plataformMovie',
     joinColumn: {
@@ -94,5 +94,5 @@ export class Movie {
       referencedColumnName: 'id',
     },
   })
-  plataform?: Plataform[];
+  plataforms?: Plataform[];
 }

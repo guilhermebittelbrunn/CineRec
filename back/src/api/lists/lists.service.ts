@@ -57,18 +57,16 @@ export class ListsService {
     return await this.listRepository.save(createListDto);
   }
 
-  async createDefaultLists(user: User): Promise<List[]> {
-    return await this.listRepository.save([
-      { name: DefaultUserLists['Favoritos'], user },
+  async createDefaultLists(user: User, moviesId: string[]): Promise<void> {
+    await this.listRepository.save([
+      {
+        name: DefaultUserLists['Favoritos'],
+        user,
+        movies: moviesId.map((idMovie) => ({ id: idMovie })),
+      },
       { name: DefaultUserLists['Assistidos'], user },
       { name: DefaultUserLists['Assistir mais tarde'], user },
     ]);
-  }
-
-  async saveMovies(idList: string, movies: string[]) {
-    const list: List = await this.findOne({ id: idList });
-    list.movie = movies;
-    this.listRepository.save(list);
   }
 
   async delete(id: string): Promise<string> {

@@ -9,6 +9,6 @@ export class Genre {
   @Column()
   name: string;
 
-  @ManyToMany(() => Movie, (movie) => movie.genre)
-  movie?: Movie[];
+  @ManyToMany(() => Movie, (movies) => movies.genres)
+  movies?: Movie[];
 }

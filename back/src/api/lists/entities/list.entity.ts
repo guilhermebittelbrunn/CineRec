@@ -1,6 +1,7 @@
 import { Movie } from 'src/api/movies/entities/movie.entity';
 import { User } from 'src/api/users/entities/user.entity';
 import { DefaultUserLists } from 'src/common/enums/default-user-lists.enum';
+import { ForeignKeyDefault } from 'src/common/interfaces/foreignKey-default.interface';
 import {
   Column,
   Entity,
@@ -18,10 +19,10 @@ export class List {
   @Column({ nullable: true, length: 30 })
   name: DefaultUserLists | string;
 
-  @ManyToOne(() => User, (user) => user.list)
+  @ManyToOne(() => User, (users) => users.lists)
   @JoinColumn({ name: 'idUser' })
   user: User;
 
-  @ManyToMany(() => Movie, (movie) => movie.list)
-  movie?: Movie[];
+  @ManyToMany(() => Movie, (movies) => movies.lists)
+  movies?: Movie[] | ForeignKeyDefault[];
 }

@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Param, Post, Query } from '@nestjs/common';
 import { CreateList } from './dtos/create-list.dto';
 import { List } from './entities/list.entity';
 import { ListsService } from './lists.service';
@@ -11,7 +11,4 @@ export class ListsController {
   create(@Body() createListDTO: CreateList): Promise<List> {
     return this.listService.create(createListDTO);
   }
-
-  @Post('saveMovies')
-  saveMovies(@Body())
 }

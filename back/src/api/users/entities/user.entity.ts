@@ -12,6 +12,7 @@ import {
 import { UserRole } from '../enums/user-role.enum';
 import { List } from 'src/api/lists/entities/list.entity';
 import { Plataform } from 'src/api/plataforms/entities/plataform.entity';
+import { ForeignKeyDefault } from 'src/common/interfaces/foreignKey-default.interface';
 
 @Entity('users')
 export class User {
@@ -39,10 +40,10 @@ export class User {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => List, (list) => list.user)
-  list?: List[];
+  @OneToMany(() => List, (lists) => lists.user)
+  lists?: List[];
 
-  @ManyToMany(() => Plataform, (plataform) => plataform.user)
+  @ManyToMany(() => Plataform, (plataforms) => plataforms.users)
   @JoinTable({
     name: 'userPlataform',
     joinColumn: {
@@ -54,5 +55,5 @@ export class User {
       referencedColumnName: 'id',
     },
   })
-  plataform?: Plataform[];
+  plataforms?: Plataform[] | ForeignKeyDefault[] | string[];
 }

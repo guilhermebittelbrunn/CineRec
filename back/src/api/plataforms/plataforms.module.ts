@@ -8,6 +8,5 @@ import { Plataform } from './entities/plataform.entity';
   controllers: [PlataformsController],
   providers: [PlataformsService],
   imports: [TypeOrmModule.forFeature([Plataform])],
-  exports: [PlataformsService],
 })
 export class PlataformsModule {}

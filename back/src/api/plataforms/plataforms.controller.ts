@@ -7,7 +7,7 @@ export class PlataformsController {
   constructor(private plataformService: PlataformsService) {}
 
   @Get()
-  findAll(@Query() idPlataforms: string[]): Promise<Plataform[]> {
+  findAll(@Query('plataforms') idPlataforms: string): Promise<Plataform[]> {
     return this.plataformService.findAll(idPlataforms);
   }
 }

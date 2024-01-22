@@ -37,8 +37,8 @@ export class MoviesService {
     return this.movieRepository.findOneBy({ id });
   }
 
-  async pushIntoList(idList: string, idMovies: string[]): Promise<void> {
-    const movies: Movie[] = await this.findAll({ moviesId: idMovies });
-    this.listService.saveMovies(idList, movies);
-  }
+  // async pushIntoList(idList: string, idMovies: string[]): Promise<void> {
+  //   const movies: Movie[] = await this.findAll({ moviesId: idMovies });
+  //   this.listService.saveMovies(idList, movies);
+  // }
 }
