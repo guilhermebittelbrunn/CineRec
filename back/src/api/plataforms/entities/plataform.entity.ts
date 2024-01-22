@@ -13,7 +13,7 @@ export class Plataform {
   @Column()
   icon_path: string;
 
-  @Column({ type: 'json', nullable: true })
+  @Column({ type: 'json', nullable: true, select: false })
   json: string;
 
   @ManyToMany(() => Movie, (movies) => movies.genres)

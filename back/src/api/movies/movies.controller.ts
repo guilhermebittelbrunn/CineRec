@@ -1,9 +1,11 @@
-import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 import { GetMoviesByQuery } from './dtos/get-movies-by-query.dto';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('movies')
+@UseGuards(AuthGuard())
 export class MoviesController {
   constructor(private movieService: MoviesService) {}
 

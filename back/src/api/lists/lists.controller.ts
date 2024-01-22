@@ -1,9 +1,11 @@
-import { Body, Controller, Param, Post, Query } from '@nestjs/common';
+import { Body, Controller, Post, UseGuards } from '@nestjs/common';
 import { CreateList } from './dtos/create-list.dto';
 import { List } from './entities/list.entity';
 import { ListsService } from './lists.service';
+import { AuthGuard } from '@nestjs/passport';
 
 @Controller('lists')
+// @UseGuards(AuthGuard())
 export class ListsController {
   constructor(private listService: ListsService) {}
 

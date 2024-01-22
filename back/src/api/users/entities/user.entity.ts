@@ -1,4 +1,5 @@
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   DeleteDateColumn,
@@ -13,7 +14,7 @@ import { UserRole } from '../enums/user-role.enum';
 import { List } from 'src/api/lists/entities/list.entity';
 import { Plataform } from 'src/api/plataforms/entities/plataform.entity';
 import { ForeignKeyDefault } from 'src/common/interfaces/foreignKey-default.interface';
-
+import * as bcrypt from 'bcrypt';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -56,4 +57,10 @@ export class User {
     },
   })
   plataforms?: Plataform[] | ForeignKeyDefault[] | string[];
+
+  @BeforeInsert()
+  async createHashPassword() {
+    const salt = await bcrypt.genSalt();
+    this.password = await bcrypt.hash(this.password, salt);
+  }
 }

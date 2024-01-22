@@ -51,7 +51,7 @@ export class Movie {
   @Column({ nullable: true })
   idApi: string;
 
-  @Column({ nullable: true, type: 'json' })
+  @Column({ nullable: true, type: 'json', select: false })
   json: string;
 
   @ManyToMany(() => Genre, (genres) => genres.movies)

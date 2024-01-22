@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
 import { Repository } from 'typeorm';
@@ -29,16 +29,21 @@ export class MoviesService {
     }
 
     const movies = await query.getMany();
-    console.log(movies.length);
     return movies;
   }
 
   async findOne(id: string): Promise<Movie> {
-    return this.movieRepository.findOneBy({ id });
-  }
+    const movie = await this.movieRepository
+      .createQueryBuilder('movies')
+      .andWhereInIds(id)
+      .leftJoinAndSelect('movies.genres', 'genres')
+      .leftJoinAndSelect('movies.plataforms', 'plataforms')
+      .getOne();
 
-  // async pushIntoList(idList: string, idMovies: string[]): Promise<void> {
-  //   const movies: Movie[] = await this.findAll({ moviesId: idMovies });
-  //   this.listService.saveMovies(idList, movies);
-  // }
+    if (!movie) {
+      throw new NotFoundException(`movie with id: ${id} not found`);
+    }
+
+    return movie;
+  }
 }

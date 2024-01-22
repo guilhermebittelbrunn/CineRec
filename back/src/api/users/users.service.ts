@@ -28,15 +28,11 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUser): Promise<string> {
-    const { password, plataforms, movies, ...rest } = createUserDto;
-    const salt = await bcrypt.genSalt();
-    const cryptedPassword = await bcrypt.hash(password, salt);
+    const { plataforms, movies, ...rest } = createUserDto;
     const user: User = this.userRepository.create(rest);
 
-    user.plataforms = plataforms.map((idPlataform) => ({ id: idPlataform }));
-    user.password = cryptedPassword;
-
     try {
+      user.plataforms = plataforms.map((idPlataform) => ({ id: idPlataform }));
       await this.userRepository.save(user);
       await this.listService.createDefaultLists(user, movies);
       return `user ${user.name} created successfully`;
