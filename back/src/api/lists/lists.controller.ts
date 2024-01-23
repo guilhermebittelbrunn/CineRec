@@ -5,7 +5,7 @@ import { ListsService } from './lists.service';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('lists')
-// @UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 export class ListsController {
   constructor(private listService: ListsService) {}
 

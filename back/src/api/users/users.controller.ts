@@ -1,8 +1,9 @@
+import { AuthGuard } from '@nestjs/passport';
 import { CreateUser } from './dtos/create-user.dto';
 import { UpdateUser } from './dtos/update-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
-import { Body, Controller, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Param, Post, Put, UseGuards } from '@nestjs/common';
 
 @Controller('users')
 export class UsersController {
@@ -14,6 +15,7 @@ export class UsersController {
   }
 
   @Put(':id')
+  @UseGuards(AuthGuard('jwt'))
   update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUser,

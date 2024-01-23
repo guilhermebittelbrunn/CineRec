@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, Param } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { LoginUser } from './dto/login-user.dto';
 import { IToken } from './interfaces/token.interface';
@@ -16,18 +16,27 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async login(loginUserDto: LoginUser): Promise<IToken> {
-    const { email, password } = loginUserDto;
-    const user: User = await this.userService.findByEmail(email);
+  async login(user: User): Promise<IToken> {
+    const payload: ITokenPayload = { id: user.id };
+    const token = this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_TOKEN'),
+    });
+    return { access_token: token };
+  }
 
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const payload: ITokenPayload = { id: user.id };
-      const token = this.jwtService.sign(payload, {
-        secret: this.configService.get('JWT_TOKEN'),
-      });
-      return { access_token: token };
+  async validateUser(
+    loginUserDto: LoginUser,
+  ): Promise<boolean | Partial<User>> {
+    try {
+      const { password, ...user } = await this.userService.findByEmail(
+        loginUserDto.email,
+      );
+
+      if (user && (await bcrypt.compare(loginUserDto.password, password))) {
+        return user;
+      }
+    } catch (error) {
+      return null;
     }
-
-    throw new BadRequestException('Email or password incorrect');
   }
 }

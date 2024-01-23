@@ -1,11 +1,11 @@
-import { Controller, Get, Param, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Param, Query, Req, UseGuards } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { Movie } from './entities/movie.entity';
 import { GetMoviesByQuery } from './dtos/get-movies-by-query.dto';
 import { AuthGuard } from '@nestjs/passport';
 
 @Controller('movies')
-@UseGuards(AuthGuard())
+@UseGuards(AuthGuard('jwt'))
 export class MoviesController {
   constructor(private movieService: MoviesService) {}
 
@@ -15,7 +15,8 @@ export class MoviesController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<Movie> {
+  findOne(@Param('id') id: string, @Req() req: any): Promise<Movie> {
+    console.log(req.user);
     return this.movieService.findOne(id);
   }
 }

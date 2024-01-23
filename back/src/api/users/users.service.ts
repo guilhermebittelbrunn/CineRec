@@ -9,7 +9,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateUser } from './dtos/create-user.dto';
-import * as bcrypt from 'bcrypt';
 import { ListsService } from '../lists/lists.service';
 import { UpdateUser } from './dtos/update-user.dto';
 @Injectable()
@@ -50,7 +49,7 @@ export class UsersService {
   ): Promise<Partial<User>> {
     const { name, email, plataforms } = updateUserDto;
     const user: User = this.userRepository.create({ id, name, email });
-    if (plataforms.length > 0) {
+    if (plataforms?.length > 0) {
       user.plataforms = plataforms.map((idPlataform) => ({ id: idPlataform }));
     }
     return await this.userRepository.save(user);
