@@ -9,8 +9,7 @@ import { Repository } from 'typeorm';
 import { CreateList } from './dtos/create-list.dto';
 import { GetListFilters } from './dtos/get-list-filters.dto';
 import { User } from '../users/entities/user.entity';
-import { DefaultUserLists } from 'src/common/enums/default-user-lists.enum';
-import { Movie } from '../movies/entities/movie.entity';
+import { DefaultUserLists } from '../../common/enums/default-user-lists.enum';
 
 @Injectable()
 export class ListsService {

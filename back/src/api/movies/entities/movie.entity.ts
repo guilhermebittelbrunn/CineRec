@@ -6,9 +6,9 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { MovieClassification } from '../enums/movie-classification.enum';
-import { Genre } from 'src/api/genres/entities/genre.entity';
-import { List } from 'src/api/lists/entities/list.entity';
-import { Plataform } from 'src/api/plataforms/entities/plataform.entity';
+import { Genre } from '../../genres/entities/genre.entity';
+import { List } from '../../lists/entities/list.entity';
+import { Plataform } from '../../plataforms/entities/plataform.entity';
 
 @Entity('movies')
 export class Movie {

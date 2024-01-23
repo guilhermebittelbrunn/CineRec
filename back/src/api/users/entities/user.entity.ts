@@ -11,9 +11,9 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
-import { List } from 'src/api/lists/entities/list.entity';
-import { Plataform } from 'src/api/plataforms/entities/plataform.entity';
-import { ForeignKeyDefault } from 'src/common/interfaces/foreignKey-default.interface';
+import { List } from '../../lists/entities/list.entity';
+import { Plataform } from '../../plataforms/entities/plataform.entity';
+import { ForeignKeyDefault } from '../../../common/interfaces/foreignKey-default.interface';
 import * as bcrypt from 'bcrypt';
 @Entity('users')
 export class User {

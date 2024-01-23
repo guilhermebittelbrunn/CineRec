@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { MoviesModule } from './api/movies/movies.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { GenresModule } from './api/genres/genres.module';
@@ -12,6 +12,7 @@ import { Genre } from './api/genres/entities/genre.entity';
 import { Plataform } from './api/plataforms/entities/plataform.entity';
 import { AuthModule } from './api/auth/auth.module';
 import { PlataformsModule } from './api/plataforms/plataforms.module';
+import { LoggerMiddleware } from './config/logger/logger.middleware';
 
 @Module({
   imports: [
@@ -34,4 +35,8 @@ import { PlataformsModule } from './api/plataforms/plataforms.module';
     PlataformsModule,
   ],
 })
-export class AppModule {}
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}

@@ -1,7 +1,7 @@
-import { Movie } from 'src/api/movies/entities/movie.entity';
-import { User } from 'src/api/users/entities/user.entity';
-import { DefaultUserLists } from 'src/common/enums/default-user-lists.enum';
-import { ForeignKeyDefault } from 'src/common/interfaces/foreignKey-default.interface';
+import { Movie } from '../../movies/entities/movie.entity';
+import { User } from '../../users/entities/user.entity';
+import { DefaultUserLists } from '../../../common/enums/default-user-lists.enum';
+import { ForeignKeyDefault } from '../../../common/interfaces/foreignKey-default.interface';
 import {
   Column,
   Entity,

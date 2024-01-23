@@ -1,5 +1,5 @@
-import { Movie } from 'src/api/movies/entities/movie.entity';
-import { User } from 'src/api/users/entities/user.entity';
+import { Movie } from '../../movies/entities/movie.entity';
+import { User } from '../../users/entities/user.entity';
 import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 
 @Entity('plataforms')
