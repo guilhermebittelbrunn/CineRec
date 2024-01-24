@@ -4,8 +4,10 @@ import { IToken } from './interfaces/token.interface';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../../common/decoratos/get-user.decorator';
 import { User } from '../users/entities/user.entity';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
+@ApiTags('auth')
 @UseGuards(AuthGuard('local'))
 export class AuthController {
   private logger = new Logger('AuthController', { timestamp: true });

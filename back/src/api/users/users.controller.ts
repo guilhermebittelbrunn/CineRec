@@ -4,8 +4,10 @@ import { UpdateUser } from './dtos/update-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 import { Body, Controller, Param, Post, Put, UseGuards } from '@nestjs/common';
+import { ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
+@ApiTags('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
