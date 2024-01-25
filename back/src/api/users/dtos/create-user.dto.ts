@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import {
   IsEmail,
   IsNotEmpty,
@@ -7,12 +8,15 @@ import {
 } from 'class-validator';
 
 export class CreateUser {
+  @ApiProperty()
   @MinLength(4)
   name: string;
 
+  @ApiProperty()
   @IsEmail()
   email: string;
 
+  @ApiProperty()
   @MaxLength(30)
   @IsStrongPassword(
     {
@@ -25,9 +29,11 @@ export class CreateUser {
   )
   password: string;
 
+  @ApiProperty()
   @IsNotEmpty()
   movies: string[];
 
+  @ApiProperty()
   @IsNotEmpty()
   plataforms: string[];
 }

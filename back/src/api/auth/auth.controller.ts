@@ -4,7 +4,7 @@ import { IToken } from './interfaces/token.interface';
 import { AuthGuard } from '@nestjs/passport';
 import { GetUser } from '../../common/decoratos/get-user.decorator';
 import { User } from '../users/entities/user.entity';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @Controller('auth')
 @ApiTags('auth')
@@ -14,6 +14,14 @@ export class AuthController {
 
   constructor(private authService: AuthService) {}
 
+  @ApiBody({
+    schema: {
+      default: {
+        email: 'henrique@admin.com.br',
+        password: '!Henrique123',
+      },
+    },
+  })
   @Post()
   login(@GetUser() user: User): Promise<IToken> {
     this.logger.log(
