@@ -20,7 +20,6 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   async validate(payload: ITokenPayload): Promise<Partial<User>> {
-    console.log(payload);
     const { id } = payload;
     const { password, ...user }: User = await this.userRepository.findOneBy({
       id,

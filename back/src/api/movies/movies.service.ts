@@ -13,12 +13,17 @@ export class MoviesService {
   ) {}
 
   async findAll(movieFiltersDto: GetMoviesByQuery): Promise<Movie[]> {
-    const { title, limit, genres, listIdApi, moviesId, streamings } =
+    const { title, limit, genres, listIdApi, moviesId, platforms } =
       movieFiltersDto;
+
+    console.log(movieFiltersDto);
 
     const query = this.movieRepository
       .createQueryBuilder('movies')
-      .limit(limit);
+      .limit(limit)
+      .leftJoinAndSelect('movies.genres', 'genres')
+      .leftJoinAndSelect('movies.lists', 'lists');
+    // .leftJoinAndSelect('movies.platforms', 'platforms');
 
     if (title) {
       query.andWhere('movies.title LIKE :title', { title: `%${title}%` });
@@ -26,6 +31,18 @@ export class MoviesService {
 
     if (moviesId) {
       query.andWhere('movies.id IN (:...moviesId)', { moviesId });
+    }
+
+    if (genres) {
+      query.andWhere('movies.genres IN (:...genres)', { genres });
+    }
+
+    if (listIdApi) {
+      query.andWhere('movies.lists IN (:...listIdApi)', { listIdApi });
+    }
+
+    if (platforms) {
+      query.andWhere('movies.platforms IN (:...platforms)', { platforms });
     }
 
     const movies = await query.getMany();

@@ -8,7 +8,7 @@ import {
 import { MovieClassification } from '../enums/movie-classification.enum';
 import { Genre } from '../../genres/entities/genre.entity';
 import { List } from '../../lists/entities/list.entity';
-import { Plataform } from '../../plataforms/entities/plataform.entity';
+import { Platform } from '../../plataforms/entities/plataform.entity';
 
 @Entity('movies')
 export class Movie {
@@ -82,17 +82,17 @@ export class Movie {
   })
   lists?: List[];
 
-  @ManyToMany(() => Plataform, (plataforms) => plataforms.movies)
+  @ManyToMany(() => Platform, (platforms) => platforms.movies)
   @JoinTable({
-    name: 'plataformMovie',
+    name: 'platformMovie',
     joinColumn: {
       name: 'idMovie',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'idPlataform',
+      name: 'idPlatform',
       referencedColumnName: 'id',
     },
   })
-  plataforms?: Plataform[];
+  platforms?: Platform[];
 }

@@ -25,3 +25,7 @@ dist-ssr
 *.sw?
 back/database.sqlite
 *.sqlite
+*.sqlite
+*.env
+back/database.sqlite
+back/.dev.env

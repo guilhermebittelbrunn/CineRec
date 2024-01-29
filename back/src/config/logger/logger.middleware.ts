@@ -18,8 +18,6 @@ export class LoggerMiddleware implements NestMiddleware {
       );
     });
 
-    console.log(request.headers);
-
     next();
   }
 }

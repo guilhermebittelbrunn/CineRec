@@ -28,10 +28,12 @@ export class UsersService {
 
   async create(createUserDto: CreateUser): Promise<string> {
     const { plataforms, movies, ...rest } = createUserDto;
-    const user: User = this.userRepository.create(rest);
+    const user: User = this.userRepository.create({
+      ...rest,
+      plataforms: plataforms.map((idPlataform) => ({ id: idPlataform })),
+    });
 
     try {
-      user.plataforms = plataforms.map((idPlataform) => ({ id: idPlataform }));
       await this.userRepository.save(user);
       await this.listService.createDefaultLists(user, movies);
       return `user ${user.name} created successfully`;

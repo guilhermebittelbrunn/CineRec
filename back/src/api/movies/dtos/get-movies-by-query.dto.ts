@@ -19,7 +19,7 @@ export class GetMoviesByQuery {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  streamings?: PlataformsOptions[];
+  platforms?: PlataformsOptions[];
 
   @ApiProperty({ required: false })
   @IsOptional()
