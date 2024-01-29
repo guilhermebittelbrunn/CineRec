@@ -1,4 +1,4 @@
-export enum PlataformsOptions {
+export enum ProviderOptions {
   'Apple TV' = 2,
   'Google Play Movies' = 3,
   'Netflix' = 8,

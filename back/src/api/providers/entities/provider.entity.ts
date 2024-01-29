@@ -2,8 +2,8 @@ import { Movie } from '../../movies/entities/movie.entity';
 import { User } from '../../users/entities/user.entity';
 import { Column, Entity, ManyToMany, PrimaryColumn } from 'typeorm';
 
-@Entity('platforms')
-export class Platform {
+@Entity('providers')
+export class Provider {
   @PrimaryColumn()
   id: string;
 
@@ -16,9 +16,9 @@ export class Platform {
   @Column({ type: 'json', nullable: true, select: false })
   json: string;
 
-  @ManyToMany(() => Movie, (movies) => movies.genres)
+  @ManyToMany(() => Movie, (movies) => movies.providers)
   movies?: Movie[];
 
-  @ManyToMany(() => User, (users) => users.platforms)
+  @ManyToMany(() => User, (users) => users.providers)
   users?: User[];
 }

@@ -14,5 +14,5 @@ export class UpdateUser {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  plataforms?: string[];
+  providers?: string[];
 }

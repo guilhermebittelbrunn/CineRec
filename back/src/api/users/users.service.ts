@@ -27,10 +27,10 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUser): Promise<string> {
-    const { plataforms, movies, ...rest } = createUserDto;
+    const { providers, movies, ...rest } = createUserDto;
     const user: User = this.userRepository.create({
       ...rest,
-      plataforms: plataforms.map((idPlataform) => ({ id: idPlataform })),
+      providers: providers.map((idProvider) => ({ id: idProvider })),
     });
 
     try {
@@ -49,10 +49,10 @@ export class UsersService {
     id: string,
     @Body() updateUserDto: UpdateUser,
   ): Promise<Partial<User>> {
-    const { name, email, plataforms } = updateUserDto;
+    const { name, email, providers } = updateUserDto;
     const user: User = this.userRepository.create({ id, name, email });
-    if (plataforms?.length > 0) {
-      user.plataforms = plataforms.map((idPlataform) => ({ id: idPlataform }));
+    if (providers?.length > 0) {
+      user.providers = providers.map((idProvider) => ({ id: idProvider }));
     }
     return await this.userRepository.save(user);
   }

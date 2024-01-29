@@ -12,9 +12,9 @@ import {
 } from 'typeorm';
 import { UserRole } from '../enums/user-role.enum';
 import { List } from '../../lists/entities/list.entity';
-import { Plataform } from '../../plataforms/entities/plataform.entity';
 import { ForeignKeyDefault } from '../../../common/interfaces/foreignKey-default.interface';
 import * as bcrypt from 'bcrypt';
+import { Provider } from 'src/api/providers/entities/provider.entity';
 @Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
@@ -44,19 +44,19 @@ export class User {
   @OneToMany(() => List, (lists) => lists.user)
   lists?: List[];
 
-  @ManyToMany(() => Plataform, (plataforms) => plataforms.users)
+  @ManyToMany(() => Provider, (providers) => providers.users)
   @JoinTable({
-    name: 'userPlataform',
+    name: 'userProvider',
     joinColumn: {
       name: 'idUser',
       referencedColumnName: 'id',
     },
     inverseJoinColumn: {
-      name: 'idPlataform',
+      name: 'idProvider',
       referencedColumnName: 'id',
     },
   })
-  plataforms?: Plataform[] | ForeignKeyDefault[] | string[];
+  providers?: Provider[] | ForeignKeyDefault[] | string[];
 
   @BeforeInsert()
   async createHashPassword() {

@@ -13,7 +13,7 @@ export class MoviesService {
   ) {}
 
   async findAll(movieFiltersDto: GetMoviesByQuery): Promise<Movie[]> {
-    const { title, limit, genres, listIdApi, moviesId, platforms } =
+    const { title, limit, genres, listIdApi, moviesId, providers } =
       movieFiltersDto;
 
     console.log(movieFiltersDto);
@@ -41,8 +41,8 @@ export class MoviesService {
       query.andWhere('movies.lists IN (:...listIdApi)', { listIdApi });
     }
 
-    if (platforms) {
-      query.andWhere('movies.platforms IN (:...platforms)', { platforms });
+    if (providers) {
+      query.andWhere('movies.providers IN (:...providers)', { providers });
     }
 
     const movies = await query.getMany();
@@ -54,7 +54,7 @@ export class MoviesService {
       .createQueryBuilder('movies')
       .andWhereInIds(id)
       .leftJoinAndSelect('movies.genres', 'genres')
-      .leftJoinAndSelect('movies.plataforms', 'plataforms')
+      .leftJoinAndSelect('movies.providers', 'providers')
       .getOne();
 
     if (!movie) {

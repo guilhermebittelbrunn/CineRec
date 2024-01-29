@@ -9,10 +9,10 @@ import { ListsModule } from './api/lists/lists.module';
 import { User } from './api/users/entities/user.entity';
 import { List } from './api/lists/entities/list.entity';
 import { Genre } from './api/genres/entities/genre.entity';
-import { Plataform } from './api/plataforms/entities/plataform.entity';
 import { AuthModule } from './api/auth/auth.module';
-import { PlataformsModule } from './api/plataforms/plataforms.module';
 import { LoggerMiddleware } from './config/logger/logger.middleware';
+import { Provider } from './api/providers/entities/provider.entity';
+import { ProvidersModule } from './api/providers/providers.module';
 
 @Module({
   imports: [
@@ -25,14 +25,14 @@ import { LoggerMiddleware } from './config/logger/logger.middleware';
       database: './database.sqlite',
       synchronize: true,
       logging: true,
-      entities: [Movie, User, List, Genre, Plataform],
+      entities: [Movie, User, List, Genre, Provider],
     }),
     MoviesModule,
     GenresModule,
     UsersModule,
     ListsModule,
     AuthModule,
-    PlataformsModule,
+    ProvidersModule,
   ],
 })
 export class AppModule implements NestModule {

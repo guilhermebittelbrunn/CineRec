@@ -35,5 +35,5 @@ export class CreateUser {
 
   @ApiProperty()
   @IsNotEmpty()
-  plataforms: string[];
+  providers: string[];
 }
