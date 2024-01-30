@@ -1,4 +1,13 @@
-import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateList } from './dtos/create-list.dto';
 import { List } from './entities/list.entity';
 import { ListsService } from './lists.service';
@@ -24,6 +33,11 @@ export class ListsController {
     return this.listService.findAll(getFiltersDto, user.id);
   }
 
+  @Get(':id')
+  findOne(@Param('id') id: string, @GetUser() user: User): Promise<List> {
+    return this.listService.findOne(id, user);
+  }
+
   @Post()
   create(
     @Body() createListDTO: CreateList,
@@ -39,5 +53,10 @@ export class ListsController {
   ): Promise<string> {
     const { id } = user;
     return this.listService.update(updateListDto, id);
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: string, @GetUser() user: User): Promise<string> {
+    return this.listService.delete(id, user);
   }
 }

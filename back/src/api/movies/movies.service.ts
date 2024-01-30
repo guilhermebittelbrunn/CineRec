@@ -4,6 +4,8 @@ import { Movie } from './entities/movie.entity';
 import { Repository } from 'typeorm';
 import { GetMoviesByQuery } from './dtos/get-movies-by-query.dto';
 import { ListsService } from '../lists/lists.service';
+import { PushIntoList } from './dtos/push-into-list.dto';
+import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class MoviesService {
@@ -20,7 +22,8 @@ export class MoviesService {
       .createQueryBuilder('movies')
       .limit(limit)
       .leftJoinAndSelect('movies.genres', 'genres')
-      .leftJoinAndSelect('movies.providers', 'providers');
+      .leftJoinAndSelect('movies.providers', 'providers')
+      .orderBy('movies.score_popularity', 'DESC');
 
     if (title) {
       query.andWhere('movies.title LIKE :title', { title: `%${title}%` });
@@ -37,7 +40,6 @@ export class MoviesService {
     }
 
     if (listIdApi) {
-      console.log(1);
       query.leftJoinAndSelect('movies.lists', 'lists');
       query.andWhere('lists.id IN (:...listIdApi)', {
         listIdApi: JSON.parse(listIdApi),
@@ -45,11 +47,12 @@ export class MoviesService {
     }
 
     if (providers) {
-      query.andWhere('movies.providers IN (:...providers)', { providers });
+      query.andWhere('providers.id IN (:...providers)', {
+        providers: JSON.parse(providers),
+      });
     }
 
-    const movies = await query.getMany();
-    return movies;
+    return await query.getMany();
   }
 
   async findOne(id: string): Promise<Movie> {
@@ -67,4 +70,11 @@ export class MoviesService {
 
     return movie;
   }
+
+  // async pushIntoList(
+  //   pushIntoListDto: PushIntoList,
+  //   user: User,
+  // ): Promise<List> {
+
+  // }
 }

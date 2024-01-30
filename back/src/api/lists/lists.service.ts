@@ -7,7 +7,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { List } from './entities/list.entity';
 import { Repository } from 'typeorm';
 import { CreateList } from './dtos/create-list.dto';
-import { GetListFilters } from './dtos/get-one-list-filters.dto';
 import { User } from '../users/entities/user.entity';
 import { DefaultUserLists } from '../../common/enums/default-user-lists.enum';
 import { UpdateList } from './dtos/update-list.dto';
@@ -19,29 +18,13 @@ export class ListsService {
     @InjectRepository(List) private listRepository: Repository<List>,
   ) {}
 
-  async findOne(listFiltersDto: GetListFilters): Promise<List> {
-    const query = this.listRepository.createQueryBuilder('list');
-    const { id, idUser, name, includeMovies } = listFiltersDto;
-
-    if (id) {
-      query.andWhere('list.id = :id', { id });
-    }
-
-    if (idUser) {
-      query.andWhere('list.idUser = :idUser', { idUser });
-    }
-
-    if (name) {
-      query.andWhere('list.name = :name', { name });
-    }
-
-    if (includeMovies) {
-      query.leftJoinAndSelect('list.movie', 'movie');
-    }
-
-    const list: List = await query.getOne();
-
-    return list;
+  async findOne(id: string, user: User): Promise<List> {
+    return await this.listRepository
+      .createQueryBuilder('lists')
+      .leftJoinAndSelect('lists.movies', 'movies')
+      .andWhere('lists.idUser = :idUser', { idUser: user.id })
+      .whereInIds(id)
+      .getOne();
   }
 
   async findAll(
@@ -49,8 +32,9 @@ export class ListsService {
     idUser: string,
   ): Promise<List[]> {
     const { showMovies, name } = getFiltersDto;
-    const query = this.listRepository.createQueryBuilder('lists');
-    query.andWhere('lists.idUser = :idUser', { idUser });
+    const query = this.listRepository
+      .createQueryBuilder('lists')
+      .andWhere('lists.idUser = :idUser', { idUser });
 
     if (showMovies) {
       query.leftJoinAndSelect('lists.movies', 'movies');
@@ -65,7 +49,7 @@ export class ListsService {
 
   async create(createListDto: CreateList, user: User): Promise<List> {
     const { name } = createListDto;
-    const list = await this.findOne({ name, idUser: user.id });
+    const list = await this.findAll({ name, showMovies: false }, user.id);
 
     if (list) {
       throw new ConflictException(`List already exists`);
@@ -93,15 +77,16 @@ export class ListsService {
     }
     const { affected } = await this.listRepository.update(id, { name });
     if (affected > 0) {
-      return `list updated`;
+      return `list updated succesfully`;
     }
   }
 
-  async delete(id: string): Promise<string> {
-    const countRemovedLists = await this.listRepository.delete(id);
-    if (countRemovedLists.affected === 0) {
-      throw new NotFoundException(`list not found, id:${id}`);
+  async delete(id: string, user: User): Promise<string> {
+    const list = await this.findOne(id, user);
+    if (list) {
+      await this.listRepository.delete(list.id);
+      return `list removed successfully`;
     }
-    return `list removed successfully`;
+    throw new NotFoundException(`list not found, id:${id}`);
   }
 }
