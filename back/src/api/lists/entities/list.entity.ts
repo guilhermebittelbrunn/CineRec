@@ -21,7 +21,7 @@ export class List {
 
   @ManyToOne(() => User, (users) => users.lists)
   @JoinColumn({ name: 'idUser' })
-  user: User;
+  user: User | string;
 
   @ManyToMany(() => Movie, (movies) => movies.lists)
   movies?: Movie[] | ForeignKeyDefault[];

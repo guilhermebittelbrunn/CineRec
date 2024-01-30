@@ -1,9 +1,13 @@
-import { Body, Controller, Post, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, Patch, Post, UseGuards } from '@nestjs/common';
 import { CreateList } from './dtos/create-list.dto';
 import { List } from './entities/list.entity';
 import { ListsService } from './lists.service';
 import { AuthGuard } from '@nestjs/passport';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+import { UpdateList } from './dtos/update-list.dto';
+import { GetUser } from 'src/common/decoratos/get-user.decorator';
+import { User } from '../users/entities/user.entity';
+import { GetAllListFilters } from './dtos/get-all-list-filters.dto';
 
 @Controller('lists')
 @ApiTags('lists')
@@ -12,8 +16,28 @@ import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 export class ListsController {
   constructor(private listService: ListsService) {}
 
+  @Get()
+  findAll(
+    @Body() getFiltersDto: GetAllListFilters,
+    @GetUser() user: User,
+  ): Promise<List[]> {
+    return this.listService.findAll(getFiltersDto, user.id);
+  }
+
   @Post()
-  create(@Body() createListDTO: CreateList): Promise<List> {
-    return this.listService.create(createListDTO);
+  create(
+    @Body() createListDTO: CreateList,
+    @GetUser() user: User,
+  ): Promise<List> {
+    return this.listService.create(createListDTO, user);
+  }
+
+  @Patch()
+  update(
+    @Body() updateListDto: UpdateList,
+    @GetUser() user: User,
+  ): Promise<string> {
+    const { id } = user;
+    return this.listService.update(updateListDto, id);
   }
 }

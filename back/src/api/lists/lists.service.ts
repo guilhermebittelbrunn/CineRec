@@ -7,9 +7,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { List } from './entities/list.entity';
 import { Repository } from 'typeorm';
 import { CreateList } from './dtos/create-list.dto';
-import { GetListFilters } from './dtos/get-list-filters.dto';
+import { GetListFilters } from './dtos/get-one-list-filters.dto';
 import { User } from '../users/entities/user.entity';
 import { DefaultUserLists } from '../../common/enums/default-user-lists.enum';
+import { UpdateList } from './dtos/update-list.dto';
+import { GetAllListFilters } from './dtos/get-all-list-filters.dto';
 
 @Injectable()
 export class ListsService {
@@ -38,22 +40,37 @@ export class ListsService {
     }
 
     const list: List = await query.getOne();
+
     return list;
   }
 
-  async findAll(idUser: string): Promise<List[]> {
-    return await this.listRepository.find({ where: { id: idUser } });
-  }
+  async findAll(
+    getFiltersDto: GetAllListFilters,
+    idUser: string,
+  ): Promise<List[]> {
+    const { showMovies, name } = getFiltersDto;
+    const query = this.listRepository.createQueryBuilder('lists');
+    query.andWhere('lists.idUser = :idUser', { idUser });
 
-  async create(createListDto: CreateList) {
-    const { name, idUser } = createListDto;
-    const list = await this.findOne({ name, idUser });
-
-    if (list) {
-      throw new ConflictException(`list ${name} already exists}`);
+    if (showMovies) {
+      query.leftJoinAndSelect('lists.movies', 'movies');
     }
 
-    return await this.listRepository.save(createListDto);
+    if (name) {
+      query.andWhere('lists.name = :name', { name });
+    }
+
+    return await query.getMany();
+  }
+
+  async create(createListDto: CreateList, user: User): Promise<List> {
+    const { name } = createListDto;
+    const list = await this.findOne({ name, idUser: user.id });
+
+    if (list) {
+      throw new ConflictException(`List already exists`);
+    }
+    return await this.listRepository.save({ ...createListDto, user });
   }
 
   async createDefaultLists(user: User, moviesId: string[]): Promise<void> {
@@ -66,6 +83,18 @@ export class ListsService {
       { name: DefaultUserLists['Assistidos'], user },
       { name: DefaultUserLists['Assistir mais tarde'], user },
     ]);
+  }
+
+  async update(updateListDto: UpdateList, idUser: string): Promise<string> {
+    const { name, id } = updateListDto;
+    const list = await this.findAll({ name, showMovies: false }, idUser);
+    if (list.length > 0) {
+      throw new ConflictException(`Name ${name} already in use`);
+    }
+    const { affected } = await this.listRepository.update(id, { name });
+    if (affected > 0) {
+      return `list updated`;
+    }
   }
 
   async delete(id: string): Promise<string> {
