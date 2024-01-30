@@ -1,7 +1,7 @@
 import { IsOptional, IsPositive } from 'class-validator';
-import { MovieGenre } from '../../genres/enums/movie-genre.enum';
+// import { MovieGenre } from '../../genres/enums/movie-genre.enum';
 import { ApiProperty } from '@nestjs/swagger';
-import { ProviderOptions } from 'src/api/providers/enum/providers-options.enum';
+// import { ProviderOptions } from 'src/api/providers/enum/providers-options.enum';
 
 export class GetMoviesByQuery {
   @ApiProperty({ required: false })
@@ -15,17 +15,17 @@ export class GetMoviesByQuery {
 
   @ApiProperty({ required: false })
   @IsOptional()
-  genres?: MovieGenre[];
+  genres?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  providers?: ProviderOptions[];
+  providers?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  listIdApi?: string[];
+  listIdApi?: string;
 
   @ApiProperty({ required: false })
   @IsOptional()
-  moviesId?: string[];
+  moviesId?: string;
 }

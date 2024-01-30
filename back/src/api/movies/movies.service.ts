@@ -16,29 +16,32 @@ export class MoviesService {
     const { title, limit, genres, listIdApi, moviesId, providers } =
       movieFiltersDto;
 
-    console.log(movieFiltersDto);
-
     const query = this.movieRepository
       .createQueryBuilder('movies')
       .limit(limit)
       .leftJoinAndSelect('movies.genres', 'genres')
-      .leftJoinAndSelect('movies.lists', 'lists');
-    // .leftJoinAndSelect('movies.platforms', 'platforms');
+      .leftJoinAndSelect('movies.providers', 'providers');
 
     if (title) {
       query.andWhere('movies.title LIKE :title', { title: `%${title}%` });
     }
 
     if (moviesId) {
-      query.andWhere('movies.id IN (:...moviesId)', { moviesId });
+      query.andWhereInIds(JSON.parse(moviesId));
     }
 
     if (genres) {
-      query.andWhere('movies.genres IN (:...genres)', { genres });
+      query.andWhere('genres.id IN (:...genres)', {
+        genres: JSON.parse(genres),
+      });
     }
 
     if (listIdApi) {
-      query.andWhere('movies.lists IN (:...listIdApi)', { listIdApi });
+      console.log(1);
+      query.leftJoinAndSelect('movies.lists', 'lists');
+      query.andWhere('lists.id IN (:...listIdApi)', {
+        listIdApi: JSON.parse(listIdApi),
+      });
     }
 
     if (providers) {
@@ -54,6 +57,7 @@ export class MoviesService {
       .createQueryBuilder('movies')
       .andWhereInIds(id)
       .leftJoinAndSelect('movies.genres', 'genres')
+      .leftJoinAndSelect('movies.lists', 'lists')
       .leftJoinAndSelect('movies.providers', 'providers')
       .getOne();
 
