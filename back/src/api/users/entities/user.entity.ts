@@ -44,7 +44,7 @@ export class User {
   @OneToMany(() => List, (lists) => lists.user)
   lists?: List[];
 
-  @ManyToMany(() => Provider, (providers) => providers.users)
+  @ManyToMany(() => Provider, (providers) => providers.users) //{ cascade: true }
   @JoinTable({
     name: 'userProvider',
     joinColumn: {

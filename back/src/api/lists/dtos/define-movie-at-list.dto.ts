@@ -1,8 +1,8 @@
 import { IsNotEmpty } from 'class-validator';
 
-export class PushIntoList {
+export class DefineMovieAtList {
   @IsNotEmpty()
-  idList: string;
+  id: string;
 
   @IsNotEmpty()
   idMovie: string;

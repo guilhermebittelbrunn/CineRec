@@ -3,15 +3,11 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Movie } from './entities/movie.entity';
 import { Repository } from 'typeorm';
 import { GetMoviesByQuery } from './dtos/get-movies-by-query.dto';
-import { ListsService } from '../lists/lists.service';
-import { PushIntoList } from './dtos/push-into-list.dto';
-import { User } from '../users/entities/user.entity';
 
 @Injectable()
 export class MoviesService {
   constructor(
     @InjectRepository(Movie) private movieRepository: Repository<Movie>,
-    private listService: ListsService,
   ) {}
 
   async findAll(movieFiltersDto: GetMoviesByQuery): Promise<Movie[]> {
@@ -70,11 +66,4 @@ export class MoviesService {
 
     return movie;
   }
-
-  // async pushIntoList(
-  //   pushIntoListDto: PushIntoList,
-  //   user: User,
-  // ): Promise<List> {
-
-  // }
 }

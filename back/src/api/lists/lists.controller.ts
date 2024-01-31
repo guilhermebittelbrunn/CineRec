@@ -17,6 +17,7 @@ import { UpdateList } from './dtos/update-list.dto';
 import { GetUser } from 'src/common/decoratos/get-user.decorator';
 import { User } from '../users/entities/user.entity';
 import { GetAllListFilters } from './dtos/get-all-list-filters.dto';
+import { DefineMovieAtList } from './dtos/define-movie-at-list.dto';
 
 @Controller('lists')
 @ApiTags('lists')
@@ -46,6 +47,14 @@ export class ListsController {
     return this.listService.create(createListDTO, user);
   }
 
+  @Post(':id/movie/:idMovie')
+  pushMovie(
+    @Param() pushMovieDto: DefineMovieAtList,
+    @GetUser() user: User,
+  ): Promise<List | string> {
+    return this.listService.pushMovie(pushMovieDto, user);
+  }
+
   @Patch()
   update(
     @Body() updateListDto: UpdateList,
@@ -58,5 +67,13 @@ export class ListsController {
   @Delete(':id')
   delete(@Param('id') id: string, @GetUser() user: User): Promise<string> {
     return this.listService.delete(id, user);
+  }
+
+  @Delete(':id/movie/:idMovie')
+  removeMovie(
+    @Param() removeListDto: DefineMovieAtList,
+    @GetUser() user: User,
+  ): Promise<List | string> {
+    return this.listService.removeMovie(removeListDto, user);
   }
 }

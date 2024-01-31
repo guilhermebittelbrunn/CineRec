@@ -11,6 +11,7 @@ import { User } from '../users/entities/user.entity';
 import { DefaultUserLists } from '../../common/enums/default-user-lists.enum';
 import { UpdateList } from './dtos/update-list.dto';
 import { GetAllListFilters } from './dtos/get-all-list-filters.dto';
+import { DefineMovieAtList } from './dtos/define-movie-at-list.dto';
 
 @Injectable()
 export class ListsService {
@@ -67,6 +68,41 @@ export class ListsService {
       { name: DefaultUserLists['Assistidos'], user },
       { name: DefaultUserLists['Assistir mais tarde'], user },
     ]);
+  }
+
+  async pushMovie(
+    pushMovieDto: DefineMovieAtList,
+    user: User,
+  ): Promise<List | string> {
+    const { id, idMovie } = pushMovieDto;
+    const list: List = await this.findOne(id, user);
+    if (list) {
+      list.movies = [...list.movies, { id: idMovie }];
+      try {
+        return await this.listRepository.save(list);
+      } catch (err) {
+        return `Movie with id: ${id} already exists in list`;
+      }
+    }
+    throw new NotFoundException(`list not found`);
+  }
+
+  async removeMovie(
+    removeListDto: DefineMovieAtList,
+    user: User,
+  ): Promise<List | string> {
+    const { id, idMovie } = removeListDto;
+    const list: List = await this.findOne(id, user);
+    list.movies = list.movies.filter((m) => m.id != idMovie);
+    if (list) {
+      try {
+        await this.listRepository.save(list);
+        return await this.listRepository.save(list);
+      } catch (error) {
+        return `error to delete movie in list`;
+      }
+    }
+    throw new NotFoundException(`list not found`);
   }
 
   async update(updateListDto: UpdateList, idUser: string): Promise<string> {
