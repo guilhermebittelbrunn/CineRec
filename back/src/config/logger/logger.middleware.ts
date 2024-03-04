@@ -6,7 +6,7 @@ export class LoggerMiddleware implements NestMiddleware {
   private logger = new Logger('HTTP');
 
   use(request: Request, response: Response, next: NextFunction): void {
-    const { ip, method, originalUrl } = request;
+    const { ip, method, originalUrl, params, query } = request;
     const userAgent = request.get('user-agent') || '';
 
     response.on('finish', () => {
@@ -14,8 +14,12 @@ export class LoggerMiddleware implements NestMiddleware {
       const contentLength = response.get('content-length');
 
       this.logger.log(
-        `${method} ${originalUrl} ${statusCode} ${contentLength} - ${userAgent} ${ip}`,
+        `
+        ----------------------------------------------------------
+        \n${method} ${originalUrl} ${statusCode} ${contentLength} - ${userAgent} ${ip}\n`,
       );
+
+      this.logger.verbose('params', params, 'query', query);
     });
 
     next();
